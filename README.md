@@ -1,0 +1,1 @@
+# Kafka communication demo application
