@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0.23
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: kafka
+      MYSQL_USER: kafka
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: toor
+  producer:
+    build: producer
+    container_name: producer
+    ports:
+      - "8088:8088"
+    expose:
+      - "8088"
+  consumer:
+    build: consumer
+    container_name: consumer
+    ports:
+      - "8089:8089"
+    expose:
+      - "8089"
+    depends_on:
+      - mysql
+volumes:
+  mysql_data:
