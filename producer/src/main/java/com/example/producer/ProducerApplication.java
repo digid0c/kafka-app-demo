@@ -3,7 +3,7 @@ package com.example.producer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.example.producer", "com.example.integration"})
 public class ProducerApplication {
 
     public static void main(String[] args) {

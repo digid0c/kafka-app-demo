@@ -1,8 +1,7 @@
-package com.example.producer.web.api.v1.mapper;
+package com.example.consumer.service.mapper;
 
+import com.example.consumer.service.dto.EmployeeCreationDto;
 import com.example.integration.dto.NewEmployeeCreatedEventDto;
-import com.example.producer.service.dto.EmployeeCreationDto;
-import com.example.producer.web.api.v1.model.EmployeeCreationModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,16 +29,16 @@ public class EmployeeMapperUnitTest {
     }
 
     @Test
-    public void shouldSuccessfullyMapModelToDto() {
+    public void shouldSuccessfullyMapEventToDto() {
         // given
-        EmployeeCreationModel model = new EmployeeCreationModel();
-        model.setName(NAME);
-        model.setSurname(SURNAME);
-        model.setWage(WAGE);
-        model.setEventTime(EVENT_TIME);
+        NewEmployeeCreatedEventDto event = new NewEmployeeCreatedEventDto();
+        event.setName(NAME);
+        event.setSurname(SURNAME);
+        event.setWage(WAGE);
+        event.setEventTime(EVENT_TIME);
 
         // when
-        EmployeeCreationDto dto = tested.toDto(model);
+        EmployeeCreationDto dto = tested.toDto(event);
 
         // then
         assertThat(dto).isNotNull();
@@ -48,25 +47,4 @@ public class EmployeeMapperUnitTest {
         assertThat(dto.getWage()).isEqualTo(WAGE);
         assertThat(dto.getEventTime()).isEqualTo(EVENT_TIME);
     }
-
-    @Test
-    public void shouldSuccessfullyMapDtoToEvent() {
-        // given
-        EmployeeCreationDto dto = new EmployeeCreationDto();
-        dto.setName(NAME);
-        dto.setSurname(SURNAME);
-        dto.setWage(WAGE);
-        dto.setEventTime(EVENT_TIME);
-
-        // when
-        NewEmployeeCreatedEventDto event = tested.toEventDto(dto);
-
-        // then
-        assertThat(event).isNotNull();
-        assertThat(event.getName()).isEqualTo(NAME);
-        assertThat(event.getSurname()).isEqualTo(SURNAME);
-        assertThat(event.getWage()).isEqualTo(WAGE);
-        assertThat(event.getEventTime()).isEqualTo(EVENT_TIME);
-    }
-
 }

@@ -15,6 +15,32 @@ services:
       MYSQL_USER: kafka
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: toor
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    expose:
+      - "2181"
+    volumes:
+      - zookeeper_data:/bitnami
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: 'yes'
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    expose:
+      - "9092"
+    volumes:
+      - kafka_data:/bitnami
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
   producer:
     build: producer
     container_name: producer
@@ -22,6 +48,8 @@ services:
       - "8088:8088"
     expose:
       - "8088"
+    depends_on:
+      - kafka
   consumer:
     build: consumer
     container_name: consumer
@@ -35,5 +63,8 @@ services:
       MYSQL_PASSWORD: test
     depends_on:
       - mysql
+      - kafka
 volumes:
   mysql_data:
+  zookeeper_data:
+  kafka_data:
