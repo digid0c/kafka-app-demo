@@ -18,6 +18,11 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final WageRecordService wageRecordService;
 
+    /**
+     * Creates and persists actual employee entity along with initial wage record.
+     * @param employeeCreationDto employee details dto
+     * @throws IllegalArgumentException in case related wage record creation fails
+     */
     public void create(EmployeeCreationDto employeeCreationDto) {
         Employee newEmployee = employeeMapper.toEntity(employeeCreationDto);
         WageRecord initialWageRecord = wageRecordService.create(newEmployee, employeeCreationDto.getWage());

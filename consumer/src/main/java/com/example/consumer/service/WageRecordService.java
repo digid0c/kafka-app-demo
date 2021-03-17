@@ -24,6 +24,13 @@ public class WageRecordService {
 
     private final WageProperties wageProperties;
 
+    /**
+     * Makes necessary wage calculations before creating actual wage record entity. Validates tax percent provided.
+     * @param employee employee that wage record belongs to
+     * @param baseWage base wage to perform calculations with
+     * @return new wage record created
+     * @throws IllegalArgumentException in case tax percent is not defined or out of range
+     */
     public WageRecord create(Employee employee, BigDecimal baseWage) {
         Integer taxPercent = wageProperties.getTaxPercent();
         if (taxPercent == null || taxPercent < TAX_PERCENT_MIN_VALUE || taxPercent > TAX_PERCENT_MAX_VALUE) {
