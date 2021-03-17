@@ -1,5 +1,6 @@
 package com.example.consumer.service.mapper;
 
+import com.example.consumer.persistence.entity.Employee;
 import com.example.consumer.service.dto.EmployeeCreationDto;
 import com.example.integration.dto.NewEmployeeCreatedEventDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,5 +47,27 @@ public class EmployeeMapperUnitTest {
         assertThat(dto.getSurname()).isEqualTo(SURNAME);
         assertThat(dto.getWage()).isEqualTo(WAGE);
         assertThat(dto.getEventTime()).isEqualTo(EVENT_TIME);
+    }
+
+    @Test
+    public void shouldSuccessfullyMapDtoToEntity() {
+        // given
+        EmployeeCreationDto dto = new EmployeeCreationDto();
+        dto.setName(NAME);
+        dto.setSurname(SURNAME);
+        dto.setWage(WAGE);
+        dto.setEventTime(EVENT_TIME);
+
+        // when
+        Employee entity = tested.toEntity(dto);
+
+        // then
+        assertThat(entity).isNotNull();
+        assertThat(entity.getId()).isNull();
+        assertThat(entity.getName()).isEqualTo(NAME);
+        assertThat(entity.getSurname()).isEqualTo(SURNAME);
+        assertThat(entity.getCreatedAt()).isEqualTo(EVENT_TIME);
+        assertThat(entity.getLastModifiedAt()).isEqualTo(EVENT_TIME);
+        assertThat(entity.getWageRecords()).isEmpty();
     }
 }
